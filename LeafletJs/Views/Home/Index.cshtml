@@ -1,0 +1,129 @@
+﻿<!doctype html>
+<html>
+<head>
+    <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="leaflet-0.6.2/leaflet-src.js"></script>
+    <script src="leaflet-0.6.2/leaflet-label.js"></script>
+    <link rel="stylesheet" type="text/css" href="leaflet-0.6.2/leaflet.css">
+    <link rel="stylesheet" type="text/css" href="leaflet-0.6.2/leaflet-label.css">
+    <style type="text/css">
+        html, body
+        {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body
+        {
+            position: relative;
+        }
+        div#map
+        {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="map">
+    </div>
+    <script>
+        $(function () {
+
+            var map = L.map('map').setView([56, 11], 8);
+            map.on({
+                click: function (e) {
+                    $.getJSON('/api/click', { lat: e.latlng.lat, lng: e.latlng.lng }).success(function (data) {
+                        //console.log(data);
+                        data.forEach(add);
+                    });
+                },
+                contextmenu: function (e) {
+                    layers.clearLayers();
+                }
+
+            });
+
+            L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            var layers = new L.FeatureGroup();
+            layers.addTo(map);
+
+
+            var myControl = L.Control.extend({
+                options: {
+                    position: 'topright'
+                },
+
+                onAdd: function (map) {
+                    var container = $('<div/>');
+                    var input = $('<input/>').attr({ type: 'text' });
+                    var timeout;
+                    input.keyup(function (e) {
+                        e.preventDefault();
+                        if (timeout) {
+                            clearTimeout(timeout);
+                        }
+                        timeout = setTimeout(function () {
+                            var val = input.val();
+                            if (!val) return;
+                            $.getJSON('/api/zip', { zip: val }).success(function (data) {
+                                data.forEach(add);
+                            });
+
+                        }, 1000);
+                    });
+
+                    container.append(input);
+                    return container[0];
+                }
+            });
+
+            var insmyControl = new myControl();
+            console.log(insmyControl);
+            map.addControl(insmyControl);
+
+
+
+            var drawn = [];
+            var add = function (data) {
+                if (drawn.indexOf(data.id) !== -1) return;
+                drawn.push(data.id);
+                L.geoJson(data.polygon, {
+                    style: function (feature) {
+                        //return {color: feature.properties.color};
+                        return { color: '#000000' };
+                    },
+                    onEachFeature: function (feature, layer) {
+                        layer.on({
+                            mouseover: function (e) {
+                                e.target.setStyle({
+                                    color: '#ff0000'
+                                });
+                            },
+                            mouseout: function (e) {
+                                e.target.setStyle({
+                                    color: '#000000'
+                                });
+                            },
+                            click: function (e) {
+                                //console.log(e.layer.getBounds());
+                                map.fitBounds(e.layer.getBounds());
+                            }
+                        });
+                        //map.fitBounds(layer.getBounds());
+                    }
+                }).bindLabel(data.nr + " " + data.navn).addTo(layers);
+
+            };
+        });
+    </script>
+</body>
+</html>
