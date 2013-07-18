@@ -4,8 +4,11 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
 using RestSharp;
+using MongoDB.Driver.GeoJsonObjectModel;
+using System.Globalization;
 
 namespace LeafletJs.Controllers
 {
@@ -39,5 +42,87 @@ namespace LeafletJs.Controllers
 
         }
 
+        public object Post()
+        {
+            var col = mongo.GetCollection<RestPostNummer>("Vejnavn");
+            // http://oiorest.dk/danmark//postdistrikter/2640/adresser.json
+            var client = new RestClient("http://oiorest.dk/");
+            var req2 = new RestRequest("danmark/postdistrikter/{postNummer}/adresser.json", Method.GET);
+            req2.AddUrlSegment("postNummer", "2640");
+            var res2 = client.Execute<List<RootObject>>(req2).Data.Select(x => new OpslagVejnavn()
+                                                                                   {
+                                                                                       Vejnavn = x.vej.navn,
+                                                                                       Nummer = x.husnr,
+                                                                                       PostNummer = x.postdistrikt.nr,
+                                                                                       By = x.postdistrikt.navn,
+                                                                                       //Position2 = new GeoJsonPoint<GeoJson2DCoordinates>(new GeoJson2DCoordinates(Convert.ToDouble(x.wgs84koor.latitude, CultureInfo.InvariantCulture), Convert.ToDouble(x.wgs84koor.longitude, CultureInfo.InvariantCulture)))
+                                                                                   }).ToList();
+
+            foreach (var opslagVejnavn in res2)
+            {
+                col.Save(opslagVejnavn);
+            }
+            //}
+            return "OK";
+
+            //new GeoJsonPoint<GeoJson2DCoordinates>(new GeoJson2DCoordinates())
+            //return new { count = res2.Count() };
+
+        }
+
+    }
+
+    public class OpslagVejnavn
+    {
+        [BsonId(IdGenerator = typeof(MongoDB.Bson.Serialization.IdGenerators.StringObjectIdGenerator))]
+        public string Id { get; set; }
+        public string Vejnavn { get; set; }
+        public string VejnavnSearch { get; set; }
+        public string Nummer { get; set; }
+        public string PostNummer { get; set; }
+        public string By { get; set; }
+        //public GeoJsonPoint<GeoJson2DCoordinates> Position2 { get; set; }
+        public GeoPoint Position2 { get; set; }
+
+    }
+
+    public class GeoPoint
+    {
+        public string type { get; set; }
+        public double[] coordinates { get; set; }
+    }
+
+    public class Point
+    {
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
+    }
+
+
+
+
+    public class Vej
+    {
+        public string navn { get; set; }
+    }
+
+    public class Postdistrikt
+    {
+        public string nr { get; set; }
+        public string navn { get; set; }
+    }
+
+    public class Wgs84koor
+    {
+        public string latitude { get; set; }
+        public string longitude { get; set; }
+    }
+
+    public class RootObject
+    {
+        public Vej vej { get; set; }
+        public string husnr { get; set; }
+        public Postdistrikt postdistrikt { get; set; }
+        public Wgs84koor wgs84koor { get; set; }
     }
 }

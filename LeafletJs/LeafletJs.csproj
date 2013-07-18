@@ -45,6 +45,18 @@
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="OsmSharp.Osm">
+      <HintPath>..\packages\OsmSharp.3.1.4840.2\lib\net40\OsmSharp.Osm.dll</HintPath>
+    </Reference>
+    <Reference Include="OsmSharp.Routing">
+      <HintPath>..\packages\OsmSharp.3.1.4840.2\lib\net40\OsmSharp.Routing.dll</HintPath>
+    </Reference>
+    <Reference Include="OsmSharp.Tools">
+      <HintPath>..\packages\OsmSharp.3.1.4840.2\lib\net40\OsmSharp.Tools.dll</HintPath>
+    </Reference>
+    <Reference Include="protobuf-net">
+      <HintPath>..\packages\protobuf-net.2.0.0.640\lib\net40\protobuf-net.dll</HintPath>
+    </Reference>
     <Reference Include="RestSharp">
       <HintPath>..\packages\RestSharp.104.1\lib\net4\RestSharp.dll</HintPath>
     </Reference>
@@ -111,13 +123,24 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="Zlib.Portable">
+      <HintPath>..\packages\Zlib.Portable.1.9.2\lib\portable-net4+sl4+wp71+win8\Zlib.Portable.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\ClickController.cs" />
     <Compile Include="Controllers\FetchController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\OIOController.cs" />
     <Compile Include="Controllers\TestController.cs" />
+    <Compile Include="Controllers\VejnavnController.cs" />
     <Compile Include="Controllers\ZipController.cs" />
+    <Compile Include="Domain\Gas.cs" />
+    <Compile Include="Domain\GasStation.cs" />
+    <Compile Include="Domain\LatLon.cs" />
+    <Compile Include="Domain\Log.cs" />
+    <Compile Include="Domain\User.cs" />
+    <Compile Include="Domain\Vehicle.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -127,6 +150,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Content Include="callback.html" />
     <Content Include="Global.asax" />
     <Content Include="leaflet-0.6.2\images\layers-2x.png" />
     <Content Include="leaflet-0.6.2\images\layers.png" />
@@ -139,6 +163,7 @@
     <Content Include="leaflet-0.6.2\leaflet.css" />
     <Content Include="leaflet-0.6.2\leaflet.ie.css" />
     <Content Include="leaflet-0.6.2\leaflet.js" />
+    <Content Include="soundmanager2.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

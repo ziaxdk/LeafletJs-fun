@@ -25,7 +25,6 @@ c:\users\keo\documents\visual studio 2010\Projects\LeafletJs\LeafletJs\bin\Syste
 c:\users\keo\documents\visual studio 2010\Projects\LeafletJs\LeafletJs\bin\System.Web.WebPages.xml
 c:\users\keo\documents\visual studio 2010\Projects\LeafletJs\LeafletJs\bin\System.Web.WebPages.Deployment.xml
 c:\users\keo\documents\visual studio 2010\Projects\LeafletJs\LeafletJs\bin\System.Web.WebPages.Razor.xml
-c:\users\keo\documents\visual studio 2010\Projects\LeafletJs\LeafletJs\obj\Debug\ResolveAssemblyReference.cache
 c:\users\keo\documents\visual studio 2010\Projects\LeafletJs\LeafletJs\obj\Debug\LeafletJs.dll
 c:\users\keo\documents\visual studio 2010\Projects\LeafletJs\LeafletJs\obj\Debug\LeafletJs.pdb
 c:\users\keo\documents\visual studio 2010\Projects\LeafletJs\LeafletJs\bin\MongoDB.Bson.dll
@@ -34,3 +33,48 @@ c:\users\keo\documents\visual studio 2010\Projects\LeafletJs\LeafletJs\bin\Mongo
 c:\users\keo\documents\visual studio 2010\Projects\LeafletJs\LeafletJs\bin\MongoDB.Driver.xml
 C:\Users\keo\documents\visual studio 2010\Projects\LeafletJs\LeafletJs\bin\RestSharp.dll
 C:\Users\keo\documents\visual studio 2010\Projects\LeafletJs\LeafletJs\bin\RestSharp.xml
+C:\Users\keo\Documents\Visual Studio 2010\Projects\LeafletJs\LeafletJs\obj\Debug\LeafletJs.csprojResolveAssemblyReference.cache
+C:\Users\keo\Desktop\Backup\LeafletJs\LeafletJs\bin\LeafletJs.dll
+C:\Users\keo\Desktop\Backup\LeafletJs\LeafletJs\bin\LeafletJs.pdb
+C:\Users\keo\Desktop\Backup\LeafletJs\LeafletJs\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\keo\Desktop\Backup\LeafletJs\LeafletJs\bin\MongoDB.Bson.dll
+C:\Users\keo\Desktop\Backup\LeafletJs\LeafletJs\bin\MongoDB.Driver.dll
+C:\Users\keo\Desktop\Backup\LeafletJs\LeafletJs\bin\Newtonsoft.Json.dll
+C:\Users\keo\Desktop\Backup\LeafletJs\LeafletJs\bin\RestSharp.dll
+C:\Users\keo\Desktop\Backup\LeafletJs\LeafletJs\bin\System.Net.Http.dll
+C:\Users\keo\Desktop\Backup\LeafletJs\LeafletJs\bin\System.Net.Http.Formatting.dll
+C:\Users\keo\Desktop\Backup\LeafletJs\LeafletJs\bin\System.Net.Http.WebRequest.dll
+C:\Users\keo\Desktop\Backup\LeafletJs\LeafletJs\bin\System.Web.Helpers.dll
+C:\Users\keo\Desktop\Backup\LeafletJs\LeafletJs\bin\System.Web.Http.dll
+C:\Users\keo\Desktop\Backup\LeafletJs\LeafletJs\bin\System.Web.Http.WebHost.dll
+C:\Users\keo\Desktop\Backup\LeafletJs\LeafletJs\bin\System.Web.Mvc.dll
+C:\Users\keo\Desktop\Backup\LeafletJs\LeafletJs\bin\System.Web.Razor.dll
+C:\Users\keo\Desktop\Backup\LeafletJs\LeafletJs\bin\System.Web.WebPages.Deployment.dll
+C:\Users\keo\Desktop\Backup\LeafletJs\LeafletJs\bin\System.Web.WebPages.dll
+C:\Users\keo\Desktop\Backup\LeafletJs\LeafletJs\bin\System.Web.WebPages.Razor.dll
+C:\Users\keo\Desktop\Backup\LeafletJs\LeafletJs\bin\MongoDB.Bson.xml
+C:\Users\keo\Desktop\Backup\LeafletJs\LeafletJs\bin\MongoDB.Driver.xml
+C:\Users\keo\Desktop\Backup\LeafletJs\LeafletJs\bin\Newtonsoft.Json.xml
+C:\Users\keo\Desktop\Backup\LeafletJs\LeafletJs\bin\RestSharp.xml
+C:\Users\keo\Desktop\Backup\LeafletJs\LeafletJs\bin\System.Net.Http.xml
+C:\Users\keo\Desktop\Backup\LeafletJs\LeafletJs\bin\System.Net.Http.Formatting.xml
+C:\Users\keo\Desktop\Backup\LeafletJs\LeafletJs\bin\System.Net.Http.WebRequest.xml
+C:\Users\keo\Desktop\Backup\LeafletJs\LeafletJs\bin\System.Web.Helpers.xml
+C:\Users\keo\Desktop\Backup\LeafletJs\LeafletJs\bin\System.Web.Http.xml
+C:\Users\keo\Desktop\Backup\LeafletJs\LeafletJs\bin\System.Web.Http.WebHost.xml
+C:\Users\keo\Desktop\Backup\LeafletJs\LeafletJs\bin\System.Web.Mvc.xml
+C:\Users\keo\Desktop\Backup\LeafletJs\LeafletJs\bin\System.Web.Razor.xml
+C:\Users\keo\Desktop\Backup\LeafletJs\LeafletJs\bin\System.Web.WebPages.xml
+C:\Users\keo\Desktop\Backup\LeafletJs\LeafletJs\bin\System.Web.WebPages.Deployment.xml
+C:\Users\keo\Desktop\Backup\LeafletJs\LeafletJs\bin\System.Web.WebPages.Razor.xml
+C:\Users\keo\Desktop\Backup\LeafletJs\LeafletJs\obj\Debug\LeafletJs.csprojResolveAssemblyReference.cache
+C:\Users\keo\Desktop\Backup\LeafletJs\LeafletJs\obj\Debug\LeafletJs.dll
+C:\Users\keo\Desktop\Backup\LeafletJs\LeafletJs\obj\Debug\LeafletJs.pdb
+C:\Users\keo\Desktop\Backup\LeafletJs\LeafletJs\bin\OsmSharp.Osm.dll
+C:\Users\keo\Desktop\Backup\LeafletJs\LeafletJs\bin\OsmSharp.Routing.dll
+C:\Users\keo\Desktop\Backup\LeafletJs\LeafletJs\bin\OsmSharp.Tools.dll
+C:\Users\keo\Desktop\Backup\LeafletJs\LeafletJs\bin\protobuf-net.dll
+C:\Users\keo\Desktop\Backup\LeafletJs\LeafletJs\bin\Zlib.Portable.dll
+C:\Users\keo\Desktop\Backup\LeafletJs\LeafletJs\bin\protobuf-net.pdb
+C:\Users\keo\Desktop\Backup\LeafletJs\LeafletJs\bin\protobuf-net.xml
+C:\Users\keo\Desktop\Backup\LeafletJs\LeafletJs\bin\Zlib.Portable.pdb

@@ -4,6 +4,12 @@
     <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="leaflet-0.6.2/leaflet-src.js"></script>
     <script src="leaflet-0.6.2/leaflet-label.js"></script>
+    <script src="//connect.soundcloud.com/sdk.js"></script>
+    <script>
+        SC.initialize({
+            client_id: "b8c785260018d184301900da63422fa4"
+        });
+    </script>
     <link rel="stylesheet" type="text/css" href="leaflet-0.6.2/leaflet.css">
     <link rel="stylesheet" type="text/css" href="leaflet-0.6.2/leaflet-label.css">
     <style type="text/css">
@@ -34,14 +40,36 @@
     </div>
     <script>
         $(function () {
+            //SC.stream("/tracks/293", { autoPlay: true });
+
 
             var map = L.map('map').setView([56, 11], 8);
+            var zipcode;
             map.on({
                 click: function (e) {
-                    $.getJSON('/api/click', { lat: e.latlng.lat, lng: e.latlng.lng }).success(function (data) {
-                        //console.log(data);
-                        data.forEach(add);
+                    /*$.getJSON('/api/click', { lat: e.latlng.lat, lng: e.latlng.lng }).success(function (data) {
+                    //console.log(data);
+                    data.forEach(add);
+                    });*/
+
+                    $.ajax('/api/click', { type: 'PUT', data: { lat: e.latlng.lat, lng: e.latlng.lng} }).success(function (data) {
+                        markers2.clearLayers();
+                        markers.clearLayers();
+                        layers.clearLayers();
+                        drawn = [];
+
+                        if (!data || !data.GasStations || data.GasStations.length === 0) {
+                            map.setView([56, 11], 8);
+                            return;
+                        }
+                        map.fitBounds(add(data).getBounds());
+                        data.GasStations.forEach(function (val) {
+                            markers2.addLayer(L.marker([val.Position.Latitude, val.Position.Longitude]).bindLabel(val.Name).bindPopup("test"));
+                            zipcode = val.Zipcode;
+                        });
+
                     });
+
                 },
                 contextmenu: function (e) {
                     layers.clearLayers();
@@ -49,20 +77,40 @@
 
             });
 
-            L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-            }).addTo(map);
+            var baseLayers = [
+                { url: 'http://{s}.tile.cloudmade.com/{key}/{styleId}/256/{z}/{x}/{y}.png', settings: { attribution: '123', styleId: 997, key: '7900b8c7f3074fd18e325ad6a60c33b7' }, name: "Cloudmade" },
+                { url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png', settings: { attribution: '123' }, name: "OSM" }
+            ];
+
+            var layerControl = L.control.layers(null, null, { position: 'topleft' }).addTo(map);
+
+            baseLayers.forEach(function (e) {
+                e.layer = L.tileLayer(e.url, e.settings);
+                layerControl.addBaseLayer(e.layer, e.name);
+            });
+
 
             var layers = new L.FeatureGroup();
             layers.addTo(map);
+            var markers2 = L.featureGroup();
+            markers2.addTo(map);
+            var markers = L.featureGroup();
+            markers.addTo(map);
 
+            L.control.scale().addTo(map);
+            baseLayers[1].layer.addTo(map);
 
             var myControl = L.Control.extend({
                 options: {
-                    position: 'topright'
+                    position: 'topright',
+                    delay: 1000,
+                    cb: function () { }
                 },
-
+                initialize: function (options) {
+                    L.setOptions(this, options);
+                },
                 onAdd: function (map) {
+                    var o = this.options;
                     var container = $('<div/>');
                     var input = $('<input/>').attr({ type: 'text' });
                     var timeout;
@@ -72,50 +120,70 @@
                             clearTimeout(timeout);
                         }
                         timeout = setTimeout(function () {
-                            var val = input.val();
-                            if (!val) return;
-                            $.getJSON('/api/zip', { zip: val }).success(function (data) {
-                                data.forEach(add);
-                            });
-
-                        }, 1000);
+                            o.cb.call(input);
+                        }, o.delay);
                     });
 
+                    L.DomEvent.on(container[0], 'click', L.DomEvent.stopPropagation);
                     container.append(input);
                     return container[0];
                 }
             });
 
-            var insmyControl = new myControl();
-            console.log(insmyControl);
+            var insmyControl = new myControl({ cb: function () {
+                var val = this.val();
+                if (!val) return;
+                $.getJSON('/api/zip', { zip: val }).success(function (data) {
+                    data.forEach(add);
+                });
+            }
+            });
             map.addControl(insmyControl);
 
+
+            var vejnavnOpslag = new myControl({
+                delay: 200,
+                cb: function () {
+                    var val = this.val();
+                    if (!val || val.length <= 3) return;
+                    $.getJSON('/api/vejnavn', { q: val, zip: zipcode||2640 }).success(function (data) {
+                        markers2.clearLayers();
+                        data.forEach(function (val) {
+//                            markers2.addLayer(L.marker([val.Position2.Coordinates.X, val.Position2.Coordinates.Y]).bindLabel(val.Vejnavn + " " + val.Nummer).bindPopup("test"));
+                            markers2.addLayer(L.marker([val.Position2.coordinates[0], val.Position2.coordinates[1]]).bindLabel(val.Vejnavn + " " + val.Nummer).bindPopup("test"));
+                        });
+                        markers2.getLayers().length !== 0 ? map.fitBounds(markers2.getBounds()) : map.setView([56, 11], 8);
+                    });
+                }
+            });
+            map.addControl(vejnavnOpslag);
 
 
             var drawn = [];
             var add = function (data) {
                 if (drawn.indexOf(data.id) !== -1) return;
                 drawn.push(data.id);
-                L.geoJson(data.polygon, {
+                return L.geoJson(data.polygon, {
                     style: function (feature) {
                         //return {color: feature.properties.color};
-                        return { color: '#000000' };
+                        return { color: '#000000', fill: true, fillOpacity: 0.08 };
                     },
                     onEachFeature: function (feature, layer) {
                         layer.on({
-                            mouseover: function (e) {
-                                e.target.setStyle({
-                                    color: '#ff0000'
-                                });
+                            /*mouseover: function (e) {
+                            e.target.setStyle({
+                            color: '#ff0000'
+                            });
                             },
                             mouseout: function (e) {
-                                e.target.setStyle({
-                                    color: '#000000'
-                                });
-                            },
+                            e.target.setStyle({
+                            color: '#000000'
+                            });
+                            },*/
                             click: function (e) {
-                                //console.log(e.layer.getBounds());
-                                map.fitBounds(e.layer.getBounds());
+                                var m = L.marker(e.latlng);
+                                markers.clearLayers().addLayer(m);
+
                             }
                         });
                         //map.fitBounds(layer.getBounds());
@@ -123,6 +191,17 @@
                 }).bindLabel(data.nr + " " + data.navn).addTo(layers);
 
             };
+
+            /*$.getJSON('/api/zip', { zip: "2640" }).success(function (data) {
+            map.fitBounds(add(data[0]).getBounds());
+            });*/
+            /*$.getJSON('/api/click', { lat: 55.647011, lng: 12.231356 }).success(function(data) {
+            map.fitBounds(add(data[0]).getBounds());
+            });*/
+
+            //            $.ajax('/api/click', { type: 'PUT', data: { lat: 55.647011, lng: 12.231356} }).success(function (data) {
+            //                map.fitBounds(add(data).getBounds());
+            //            });
         });
     </script>
 </body>
